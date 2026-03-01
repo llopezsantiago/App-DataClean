@@ -1,0 +1,16 @@
+# --- Archivos de R ---
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+
+# --- Archivos de Python ---
+venv/
+.venv/
+env/
+__pycache__/
+*.pyc
+
+# --- Archivos de sistema ---
+.DS_Store
+Thumbs.db
