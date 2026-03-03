@@ -43,10 +43,10 @@ def upload_to_supabase(file, filename):
         content = file.read()
         
         # Subida al storage
-        supabase.storage.from_(bucket_name).upload(
+        res = supabase.storage.from_("datasets").upload(
             path=filename, 
             file=content,
-            file_options={"cache-control": "3600", "upsert": "true"}
+            file_options={"upsert": "true"}
         )
         return True
     except Exception as e:
