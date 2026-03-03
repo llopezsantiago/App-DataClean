@@ -87,8 +87,8 @@ def run_cleaner(is_premium):
         if "last_file" not in st.session_state or st.session_state.last_file != uploaded_file.name:
             # 1. Backup en la nube (Supabase)
             cloud_path = f"{st.session_state.user}/{uploaded_file.name}"
-            if upload_to_supabase(uploaded_file, cloud_path):
-                st.sidebar.caption("☁️ Archivo guardado en Cloud")
+            upload_to_supabase(uploaded_file, cloud_path)
+            
             
             # 2. Procesar localmente para la sesión
             uploaded_file.seek(0)
