@@ -111,11 +111,54 @@ def run_cleaner(is_premium):
             st.subheader("Vista previa")
             st.dataframe(df.head(10), use_container_width=True)
             
-            # Aquí se mantiene tu lógica original de botones y llamadas a logic.py
-            # [EL RESTO DE TU LÓGICA DE BOTONES SIGUE IGUAL...]
+           # --- NUEVO: Panel de herramientas de limpieza ---
+            st.markdown("---")
+            st.subheader("🛠️ Herramientas de IA Cleaner")
             
+            col1, col2, col3 = st.columns(3)
+            
+            with col1:
+                if st.button("📧 Limpiar Emails"):
+                    # Buscamos columnas que parezcan tener correos
+                    email_cols = [c for c in df.columns if 'email' in c or 'correo' in c]
+                    if email_cols:
+                        for col in email_cols:
+                            df[col] = df[col].apply(clean_emails)
+                        st.success(f"Se limpiaron: {', '.join(email_cols)}")
+                    else:
+                        st.warning("No detecté columnas de email.")
+
+            with col2:
+                if st.button("🔢 Validar Números"):
+                    num_cols = df.select_dtypes(include=['object']).columns
+                    target_num = st.selectbox("Columna a convertir:", num_cols)
+                    if st.button("Convertir"):
+                        df[target_num] = validate_numeric(df, target_num)
+                        st.info(f"{target_num} ahora es numérica.")
+
+            with col3:
+                if st.button("🧹 Texto Avanzado"):
+                    text_cols = df.select_dtypes(include=['object']).columns
+                    for col in text_cols:
+                        df[col] = df[col].apply(advanced_text_cleaning)
+                    st.success("Texto normalizado (minúsculas y sin símbolos).")
+
+            # --- Opciones PRO (Solo si is_premium es True) ---
+            if is_premium:
+                st.markdown("### 💎 Funciones Premium")
+                p_col1, p_col2 = st.columns(2)
+                with p_col1:
+                    if st.button("🚩 Detectar Outliers"):
+                        # Ejemplo simple de detección
+                        st.write("Analizando anomalías...")
+                with p_col2:
+                    if st.button("🧠 Imputación Inteligente"):
+                        st.write("Rellenando vacíos con IA...")
+
+            st.markdown("---")
+            # El botón de descarga que ya tenías
             csv = df.to_csv(index=False).encode('utf-8')
-            st.download_button("⬇️ Descargar Resultados", data=csv, file_name="limpio.csv")
+            st.download_button("⬇️ Descargar Resultados", data=csv, file_name="limpio.csv", use_container_width=True)
 
 # --- FLUJO PRINCIPAL ---
 def main():

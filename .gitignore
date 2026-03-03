@@ -1,16 +1,12 @@
-# --- Archivos de R ---
-.Rhistory
-.RData
-.Ruserdata
-.Rproj.user/
+# --- Streamlit Secrets (CRÍTICO) ---
+.streamlit/
+secrets.toml
 
-# --- Archivos de Python ---
+# --- Entornos Virtuales ---
 venv/
 .venv/
 env/
-__pycache__/
-*.pyc
 
-# --- Archivos de sistema ---
-.DS_Store
-Thumbs.db
+# --- Archivos de configuración local ---
+.env
+*.log
